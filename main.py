@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'dev'
 
 USERS = {
     "admin": "student",
@@ -17,10 +18,12 @@ def login():
         password = request.form['password']
 
         if username in USERS and USERS[username] == password:
+            flash("Login successful")
+            return redirect(url_for('index'))
             return render_template('index.html', username=username)
 
         else:
-            error = "Špatné uživatelské jméno nebo heslo!"
+            error = flash("Login unsuccessful", "warning")
             return render_template('login.html', error=error)
 
     return render_template('login.html')
