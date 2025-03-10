@@ -22,3 +22,9 @@ def login():
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
+@bp.route("/users")
+def user_list():
+    command = "SELECT (username, password) FROM users"
+    result = db_execute(command)
+    return render_template("user.html", result=result)
