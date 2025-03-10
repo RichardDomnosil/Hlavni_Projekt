@@ -10,22 +10,29 @@ def connect_db(db_path=DB_PATH):
     try:
         conn = sqlite3.connect(db_path)
         return conn
-    except sqlite3.SQLITE_ERROR:
-        print("Error connecting to database")
+    except:
+        print("Nepodařílo se připojit k databázi.")
+        return None
 
 def create_db(path=DB_PATH):
     conn = connect_db(path)
-    script = "scheme.sql"
-    with open(script, 'r') as file:
-        print(file.read())
-        conn.executescript(file.read())
-    conn.commit()
-    conn.close()
+    if conn:
+        script = "scheme.sql"
+        with open(script, "r") as file:
+            conn.executescript(file.read())
+        conn.commit()
+        conn.close()
 
-def db_execute(path=DB_PATH):
+
+def db_execute(command, params=False ,path=DB_PATH):
     conn = connect_db(path)
-    result = conn.execute(command)
+    if params:
+        result = conn.execute(command, params).fetchall()
+    else:
+        result = conn.execute(command).fetchall()
+    cursor = conn.cursor()
+    result = cursor.execute(command).fetchall()
     conn.commit()
     conn.close()
-    return resultYY
+    return result
 

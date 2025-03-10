@@ -1,4 +1,5 @@
 from flask import Blueprint, request, flash, redirect, render_template, url_for
+from app.db import db_execute
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
@@ -11,6 +12,10 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        command = "select username from users where username = ? and password = ?"
+
+        result = db_execute(command, (username, password))
 
         if username in USERS and USERS[username] == password:
             flash("Login successful")
@@ -25,6 +30,6 @@ def login():
 
 @bp.route("/users")
 def user_list():
-    command = "SELECT (username, password) FROM users"
+    command = "SELECT username, password FROM users"
     result = db_execute(command)
     return render_template("user.html", result=result)
