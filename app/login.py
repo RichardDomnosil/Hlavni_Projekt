@@ -3,28 +3,22 @@ from app.db import db_execute
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
-USERS = {
-    "admin": "student",
-}
-
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        command = "select username from users where username = ? and password = ?"
-
+        command = "SELECT username FROM users WHERE username = ? AND password = ?"
         result = db_execute(command, (username, password))
 
-        if username in USERS and USERS[username] == password:
-            flash("Login successful")
+        if result:
+            flash("Login successful", "success")
             return redirect(url_for('index'))
-            return render_template('index.html', username=username)
 
         else:
-            error = flash("Login unsuccessful", "warning")
-            return render_template('login.html', error=error)
+            flash("Login unsuccessful", "warning")
+            return render_template('login.html')
 
     return render_template('login.html')
 

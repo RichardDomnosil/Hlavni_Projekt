@@ -31,7 +31,6 @@ def db_execute(command, params=False ,path=DB_PATH):
     else:
         result = conn.execute(command).fetchall()
     cursor = conn.cursor()
-    result = cursor.execute(command).fetchall()
     conn.commit()
     conn.close()
     return result
