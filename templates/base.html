@@ -12,8 +12,13 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}">Index</a></li>
-                <li><a href="{{ url_for('login.login') }}">Login</a></li>
-                <li><a href="{{ url_for('register.register') }}">Registrace</a></li>
+
+                {% if session.get('username') %}
+                    <li><a href="{{ url_for('login.logout') }}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register.register') }}">Register</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('login.user_list') }}">Users</a></li>
             </ul>
         </nav>
@@ -21,10 +26,11 @@
             {% if messages %}
                 <ul>
                     {% for category, message in messages %}
-                    <li class="{{ category }}" onclick="this.parentElement.style.display='none'">{{ message }} </li>
+                        <!-- Tento script slouží k zrušení pop-up message zda jsem přihlášen nebo ne. -->
+                        <li class="{{ category }}" onclick="this.parentElement.style.display='none'">{{ message }} </li>
                     {% endfor %}
                 </ul>
-        {% endif %}
+            {% endif %}
         {% endwith %}
     </header>
     <main>
