@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}">Index</a></li>
-
+                <li><a href="{{ url_for('saloon.index')}}">Saloon</a></li>
                 {% if session.get('username') %}
                     <li><a href="{{ url_for('login.logout') }}">Log Out</a></li>
                 {% else %}

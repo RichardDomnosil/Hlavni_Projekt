@@ -1,8 +1,20 @@
+from functools import wraps
+
+import flask
 from flask import Blueprint, request, flash, redirect, render_template, url_for, session
 from app.db import db_execute
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
+
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if "username" not in session:
+            flash("Sekce pro přihlášené uživatel", "warning")
+            return redirect(url_for("login.login"))
+        return func(*args, **kwargs)
+    return wrapper
 
 @bp.route('/', methods=['GET', 'POST'])
 def login():
@@ -34,3 +46,8 @@ def logout():
     session.pop('username', None)
     flash("You have been logged out", "info")
     return redirect(url_for('login.login'))
+
+def log_required():
+    if "username" not in session:
+        flask.flash("Sekce pouze pro přihlášené užiatele", "warning")
+        return redirect(url_for('login.login'))

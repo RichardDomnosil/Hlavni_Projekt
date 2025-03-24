@@ -1,4 +1,4 @@
-from app import app, login, register
+from app import app, login, register, saloon
 from app.db import create_db
 from os import path
 
@@ -9,6 +9,8 @@ if __name__ == "__main__":
 
 app.register_blueprint(login.bp)
 app.register_blueprint(register.bp)
+
+app.register_blueprint(saloon.bp)
 
 if __name__ == "__main__":
     app.run(debug=True)  # Spuštění aplikace
