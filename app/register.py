@@ -16,12 +16,34 @@ def register():
         email = request.form['email']
         phone = request.form['phone']
 
-        # SQL dotaz pro kontrolu, zda již existuje uživatelské jméno nebo email
-        check_command = "SELECT id FROM users WHERE username = ? OR email = ?"
-        check_result = db_execute(check_command, (username, email))
+        password_confirm = request.form.get('password_confirm')
+
+        if password != password_confirm:
+            flash("Hesla se neshodují", "danger")
+            return render_template('register.html')
+
+        # SQL dotaz pro kontrolu, zda již existuje uživatelské jméno.
+        check_command = "SELECT id FROM users WHERE username = ?"
+        check_result = db_execute(check_command, (username, ))
 
         if check_result:
-            flash("Uživatelské jméno nebo email již existuje", "warning")
+            flash("Uživatelské jméno již existuje", "warning")
+            return render_template('register.html')
+
+        # SQL dotaz pro kontrolu, zda již email existuje
+        check_command = "SELECT id FROM users WHERE email = ?"
+        check_result = db_execute(check_command, (email, ))
+
+        if check_result:
+            flash("Email již existuje", "warning")
+            return render_template('register.html')
+
+        # SQL dotaz pro kontrolu, zda již telefoní číslo existuje.
+        check_command = "SELECT id FROM users WHERE phone = ?"
+        check_result = db_execute(check_command, (phone, ))
+
+        if check_result:
+            flash("Phone existuje", "warning")
             return render_template('register.html')
 
         # Pokud neexistuje, provede registraci uživatele
