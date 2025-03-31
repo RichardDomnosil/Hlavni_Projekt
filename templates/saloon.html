@@ -3,5 +3,10 @@
 {% block title %}Domovská stránka{% endblock %}
 
 {% block content %}
-    <h2>Tato stránka je pouze dostupná, pro přihlášené uživatele.</h2>
-{% endblock %}
+    <h2>Car list</h2>
+    <ul>
+        {% for car in result %}
+            <li>{{ car }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}l

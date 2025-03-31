@@ -7,3 +7,4 @@ bp = Blueprint('saloon', __name__, url_prefix='/saloon')
 @login_required
 def index():
     return render_template("saloon.html")
+
