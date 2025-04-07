@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Přidat uživatele{% endblock %}
+
+{% block content %}
+<h2>Přidat uživatele</h2>
+<form method="post">
+    <label>Uživatelské jméno:</label><br>
+    <input type="text" name="username" required><br>
+    <label>Heslo:</label><br>
+    <input type="password" name="password" required><br>
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br>
+    <label>Role:</label><br>
+    <select name="role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+    </select><br><br>
+    <button type="submit">Přidat</button>
+</form>
+{% endblock %}

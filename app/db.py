@@ -35,3 +35,11 @@ def db_execute(command, params=False, path=DB_PATH):
     conn.commit()
     conn.close()
     return result
+
+def db_execute_one(query, params=(), path=DB_PATH):
+    conn = connect_db(path)
+    result = conn.execute(query, params).fetchone()
+    conn.commit()
+    conn.close()
+    return result
+

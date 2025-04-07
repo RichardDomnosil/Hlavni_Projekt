@@ -1,5 +1,5 @@
 from app import app, login, register, saloon
-from app.db import create_db
+from app.db import create_db, db_execute, db_execute_one
 from os import path
 from app.saloon import saloon_bp
 from app.administration import admin_bp

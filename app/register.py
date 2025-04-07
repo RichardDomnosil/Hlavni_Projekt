@@ -47,8 +47,8 @@ def register():
             return render_template('register.html')
 
         # Pokud neexistuje, provede registraci uživatele
-        insert_command = "INSERT INTO users (username, password, email, phone) VALUES (?, ?, ?, ?)"
-        db_execute(insert_command, (username, password, email, phone))
+        insert_command = "INSERT INTO users (username, password, email, phone, role) VALUES (?, ?, ?, ?, ?)"
+        db_execute(insert_command, (username, password, email, phone, 'user'))
 
         flash("Registrace úspěšná", "success")
         return redirect(url_for('login.login'))

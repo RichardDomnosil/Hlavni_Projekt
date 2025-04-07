@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Upravit uživatele{% endblock %}
+
+{% block content %}
+<h2>Upravit uživatele</h2>
+
+<form method="post">
+    <label for="username">Uživatelské jméno:</label><br>
+    <input type="text" id="username" name="username" value="{{ user['username'] }}" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" value="{{ user['email'] }}" required><br><br>
+
+    <label for="role">Role:</label><br>
+    <select id="role" name="role">
+        <option value="user" {% if user['role'] == 'user' %}selected{% endif %}>User</option>
+        <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>Admin</option>
+        <option value="moderator" {% if user['role'] == 'moderator' %}selected{% endif %}>Moderator</option>
+    </select><br><br>
+
+    <button type="submit">Uložit změny</button>
+</form>
+
+<a href="{{ url_for('admin.admin_dashboard') }}">← Zpět do administrace</a>
+{% endblock %}
