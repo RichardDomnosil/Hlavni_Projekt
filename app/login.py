@@ -16,34 +16,45 @@ def login_required(func):
         return func(*args, **kwargs)
     return wrapper
 
+
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     """Zpracování přihlášení uživatele."""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        result = db_execute("SELECT username FROM users WHERE username = ? AND password = ?", (username, password))
+        result = db_execute(
+            "SELECT username, role FROM users WHERE username = ? AND password = ?",
+            (username, password)
+        )
 
         if result:
+            user = result[0]
+            session['username'] = user['username']
+            session['role'] = user['role']  # ← Uložení role do session
             flash("Login úspěšný", "success")
-            session['username'] = username
             return redirect(url_for('index'))
         else:
             flash("Špatné přihlašovací údaje", "warning")
+
     return render_template('login.html')
+
 
 @bp.route("/users")
 def user_list():
     """Zobrazení všech uživatelů."""
-    result = db_execute("SELECT username, password FROM users")
+    result = db_execute("SELECT username, role, email FROM users")
     return render_template("user.html", result=result)
+
 
 @bp.route('/logout')
 def logout():
     """Odhlášení uživatele."""
     session.pop('username', None)
+    session.pop('role', None)  # ← Odstranění role ze session
     flash("Odhlášeno", "info")
     return redirect(url_for('login.login'))
+
 
 def log_required():
     """Zastaralé - ověření přihlášení uživatele."""

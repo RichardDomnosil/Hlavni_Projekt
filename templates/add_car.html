@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Přidat auto{% endblock %}
+
+{% block content %}
+    <h2>Přidat auto</h2>
+    <form method="POST">
+        <input type="text" name="brand" placeholder="Značka" required>
+        <input type="text" name="engine" placeholder="Motor" required>
+        <input type="text" name="model" placeholder="Model" required>
+        <button type="submit">Přidat</button>
+    </form>
+{% endblock %}

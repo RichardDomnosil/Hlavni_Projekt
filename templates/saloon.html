@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %}Domovská stránka{% endblock %}
+{% block title %}Seznam aut{% endblock %}
 
 {% block content %}
-    <h2>Car list</h2>
+    <h2>Seznam aut</h2>
+
+    <a href="{{ url_for('saloon.add_car') }}">➕ Přidat nové auto</a>
+
     <ul>
         {% for car in result %}
-            <li>{{ car }}</li>
+            <li>
+                <strong>{{ car["brand"] }}</strong> – {{ car["model"] }} (motor: {{ car["engine"] }})
+
+                <!-- Formulář pro mazání auta -->
+                <form method="POST" action="{{ url_for('saloon.delete_car', id=car['id']) }}" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Opravdu chceš smazat toto auto?')">🗑️ Smazat</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Žádná auta nejsou k dispozici.</li>
         {% endfor %}
     </ul>
-{% endblock %}l
+{% endblock %}

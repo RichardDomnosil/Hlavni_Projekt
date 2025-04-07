@@ -8,7 +8,9 @@ def connect_db(db_path=DB_PATH):
     Připojí se k SQLite databázi.
     """
     try:
-        return sqlite3.connect(db_path)
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row  # Přidáno pro správný přístup k sloupcům
+        return conn
     except:
         print("Nepodařilo se připojit k databázi.")
         return None

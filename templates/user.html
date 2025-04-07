@@ -6,9 +6,9 @@
 
 {% block content %}
     <h2>User list</h2>
-    <ul>
-        {% for user in result %}
-            <li>{{ user }}</li>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for user in result %}
+                <li>{{ user['username'] }} - {{ user['email'] }}</li>
+            {% endfor %}
+        </ul>
 {% endblock %}
